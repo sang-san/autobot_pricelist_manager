@@ -2,6 +2,24 @@ from dataclasses import dataclass, asdict, fields, field, InitVar
 import time
 import requests
 
+from enum import Enum
+from typing import Dict, List
+
+@dataclass
+class Get_Dict_base:
+    def get_dict(self):
+        try:
+            return asdict(self, dict_factory=enum_hash_helper)
+        except Exception as exec:
+            print(exec)
+            raise
+            
+def enum_hash_helper(data):
+    return {
+        field: value.value if isinstance(value, Enum) else value
+        for field, value in data
+    }
+
 class What_Do_To_State(Enum):
     bank = 2
     only_buy = 0
